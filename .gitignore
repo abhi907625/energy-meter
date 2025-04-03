@@ -1,0 +1,12 @@
+/energy-meter/node_modules
+/energy-meter/.react-router/*
+/energy-meter/yarn.lock
+/energy-meter/.DS_Store
+/energy-meter/build
+/energy-meter/diagnostic.data
+
+
+# React Router
+
+/server/node_modules
+/server/db
