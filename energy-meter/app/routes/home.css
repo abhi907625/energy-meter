@@ -1,0 +1,56 @@
+.container {
+    background: rgb(199, 199, 200);
+    height: 100vh;
+    width: 100vw;
+}
+
+.meterContain {
+    display: flex;
+}
+
+.Contain {
+    background: rgb(255, 255, 255);
+    width: 90%;
+    margin: 5px;
+    padding: 10px;
+}
+
+.Label {
+    font-size: 0.80em;
+}
+
+.LabelValue {
+    font-size: 1.3em;
+    font-weight: bolder;
+}
+
+.graphContainer {
+    display: flex;
+}
+
+.pie {
+    border: 1px solid red;
+}
+
+.pieGraph {
+    width: 50%;
+    min-height: 200px;
+    max-height: 60vh;
+    background-color: white;
+    margin: 5px;
+    
+}
+
+.pieGraph > h1 {
+    font-size: 0.8em;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.barGraph {
+    width: 100%; 
+    height: 300px; 
+    background-color: white;
+    margin: 5px;
+}
