@@ -11,9 +11,8 @@ app.use(express.json());
 // Configure Socket.IO
 const io = new Server(server, {
     cors: {
-      origin: "http://localhost:3000", // Allow connections from this origin
+      origin: "http://localhost:5173", // Allow connections from this origin
       methods: ["GET", "POST"], // Allowed HTTP methods
-      allowedHeaders: ["my-custom-header"], // Custom headers
       credentials: true, // Allow credentials
     },
 });  
@@ -30,21 +29,24 @@ app.use((req, res, next) => {
 
 // MongoDB connection
 mongoose.connect('mongodb://localhost:27017/sensordata', {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+ 
 });
 
 const DataSchema = new mongoose.Schema({
-    temperature: Number,
-    humidity: Number,
+    Voltage: Number,
+    Current: Number,
+    Power: Number,
+    kWh: Number,
     timestamp: { type: Date, default: Date.now}
 });
-const DataModel = mongoose.model("Data", DataSchema);
 
-app.post("/api/sensor", async (req, res) => {
+const DataModel1 = mongoose.model("Load1", DataSchema);
+const DataModel2 = mongoose.model("Load2", DataSchema);
+
+app.post("/api/sensor/1", async (req, res) => {
     try {
-        const { temperature, humidity } = req.body;
-        const data = new DataModel({temperature, humidity});
+        const { Voltage, Current, Power, kWh } = req.body;
+        const data = new DataModel1({Voltage, Current, Power, kWh});
         await data.save();
         res.status(201).json({
             message: "sensor data is saved successfully"
@@ -56,10 +58,26 @@ app.post("/api/sensor", async (req, res) => {
     }
 })
 
-app.get("/api/sensor", async (req, res) => {
+
+app.post("/api/sensor/2", async (req, res) => {
+    try {
+        const { Voltage, Current, Power, kWh } = req.body;
+        const data = new DataModel2({Voltage, Current, Power, kWh});
+        await data.save();
+        res.status(201).json({
+            message: "sensor data is saved successfully"
+        })
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        })
+    }
+})
+
+app.get("/api/sensor/1", async (req, res) => {
     try {
         // Get the latest sensor data
-        const latestData = await DataModel.find().sort({ timestamp: -1 }).limit(1); // Get the most recent entry
+        const latestData = await DataModel1.find().sort({ timestamp: -1 }).limit(1); // Get the most recent entry
         if (latestData.length > 0) {
             res.status(200).json(latestData[0]); // Return the latest data
         } else {
@@ -84,15 +102,24 @@ io.on("connection", async (socket) => {
     // Set an interval to send the latest data every 5 seconds
     const intervalId = setInterval(async () => {
         try {
-            const latestData = await DataModel.find().sort({ timestamp: -1 }).limit(5);
+            const latestData1 = await DataModel1.find().sort({ timestamp: -1 }).limit(5);
             
-            if (latestData.length > 0) {
-                socket.emit("read", latestData); // Send the latest data to the connected client
+            if (latestData1.length > 0) {
+                socket.emit("readData1", latestData1); // Send the latest data to the connected client
             } else {
-                socket.emit("read", "No data available");
+                socket.emit("readData1", "No data available");
             }
+
+            const latestData2 = await DataModel2.find().sort({ timestamp: -1 }).limit(5);
+            
+            if (latestData2.length > 0) {
+                socket.emit("readData2", latestData2); // Send the latest data to the connected client
+            } else {
+                socket.emit("readData2", "No data available");
+            }
+
         } catch (error) {
-            socket.emit("read", `Error: ${error.message}`);
+            socket.emit("readData2", `Error: ${error.message}`);
         }
     }, 5000); // Adjust the interval as needed (5000 ms = 5 seconds)
 

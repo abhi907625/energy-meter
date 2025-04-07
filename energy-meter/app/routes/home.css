@@ -1,56 +1,55 @@
 .container {
     background: rgb(199, 199, 200);
+}
+
+.meterContain {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.Contain {
+    width: 90%;
+    margin: 10px;
+    padding: 5px;
+    background: white;
+    border-radius: 10px;
+}
+
+.graphContainer {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    background: rgb(199, 199, 200);
     height: 100vh;
     width: 100vw;
 }
 
-.meterContain {
-    display: flex;
-}
-
-.Contain {
-    background: rgb(255, 255, 255);
-    width: 90%;
-    margin: 5px;
-    padding: 10px;
-}
-
-.Label {
-    font-size: 0.80em;
-}
-
-.LabelValue {
-    font-size: 1.3em;
-    font-weight: bolder;
-}
-
-.graphContainer {
-    display: flex;
-}
-
-.pie {
-    border: 1px solid red;
+.pieContainer {
+    display: flex; /* Use flexbox for pie charts */
+    justify-content: space-around; /* Space out pie charts */
+    width: 100%; /* Full width */
+    margin-bottom: 20px; /* Add some space below the pie charts */
 }
 
 .pieGraph {
-    width: 50%;
-    min-height: 200px;
-    max-height: 60vh;
+    width: 45%; /* Adjust width to fit side by side */
+    min-height: 200px; /* Set a minimum height */
     background-color: white;
     margin: 5px;
-    
-}
-
-.pieGraph > h1 {
-    font-size: 0.8em;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     text-align: center;
-    padding: 10px 0;
+    padding: 5px 0;
 }
 
 .barGraph {
     width: 100%; 
-    height: 300px; 
+    height: 500px; 
+    background-color: white;
+    margin: 5px;
+}
+
+.LineGraph {
+    width: 100%; /* Ensure full width */
+    height: 300px; /* Set a height */
     background-color: white;
     margin: 5px;
 }
